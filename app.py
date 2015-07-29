@@ -15,12 +15,13 @@ class SplashScreen(wx.SplashScreen):
        self.Hide()
 
        controller = ExpenseController()
+       app.SetTopWindow(controller.mainWindow)
        controller.show(True)
 
        event.Skip()
 
+app = wx.App(None)
 def main():
-    app = wx.App(None)
     splash = SplashScreen()
     splash.Show()
     app.MainLoop()
