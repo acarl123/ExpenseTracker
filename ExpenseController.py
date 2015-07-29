@@ -12,6 +12,7 @@ class ExpenseController:
         # setup bindings
         self.mainWindow.Bind(wx.EVT_MENU, self.onExit, self.mainWindow.menuExit)
         self.mainWindow.Bind(wx.EVT_MENU, self.onAdd, self.mainWindow.menuAdd)
+        self.mainWindow.Bind(wx.EVT_CLOSE, self.onExit, self.mainWindow)
 
         # setup view
         self.mainWindow.reportList.InsertColumn(0, 'Last Name')
@@ -21,13 +22,19 @@ class ExpenseController:
         # setup member vars
         self.appModel = ExpenseModel()
 
-    def show(self):
-        self.mainWindow.Show()
+    def show(self, *args):
+        self.mainWindow.Show(*args)
 
     def onExit(self, event):
+        self.appModel.reportDict.close()
         sys.exit(0)
 
     def onAdd(self, event):
         addController = AddController(self.mainWindow, self.appModel)
         addController.show()
-        print self.appModel.addInfoDict
+        if not self.appModel.addInfoDict: return
+        index = self.mainWindow.reportList.InsertStringItem(self.mainWindow.reportList.GetItemCount(), self.appModel.addInfoDict['lName'])
+        self.mainWindow.reportList.SetStringItem(index, 1, self.appModel.addInfoDict['fName'])
+        self.mainWindow.reportList.SetStringItem(index, 2, self.appModel.addInfoDict['rNum'])
+        self.mainWindow.reportList.SetItemData(index, self.appModel.addInfoDict['fPath'])
+        self.appModel.reportDict.update(self.appModel.addInfoDict)
