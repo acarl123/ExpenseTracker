@@ -16,7 +16,7 @@ class ExpenseController:
         # setup view
         self.mainWindow.reportList.InsertColumn(0, 'Last Name')
         self.mainWindow.reportList.InsertColumn(1, 'First Name')
-        self.mainWindow.reportList.InsertColumn(2, 'Report Number', width=wx.COL_WIDTH_AUTOSIZE)
+        self.mainWindow.reportList.InsertColumn(2, 'Report Number')#, width=wx.COL_WIDTH_AUTOSIZE)
 
         # setup member vars
         self.appModel = ExpenseModel()
